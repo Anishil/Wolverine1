@@ -38,10 +38,10 @@ public class start extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
+   // @Override
+  //  public void onBackPressed() {
 
-        Intent i=new Intent(getApplicationContext(),homepage.class);
-        startActivity(i);
-    }
+   //     Intent i=new Intent(getApplicationContext(),homepage.class);
+ //       startActivity(i);
+   // }
 }

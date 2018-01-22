@@ -72,7 +72,7 @@ public class Shake extends Activity implements SensorListener,TextToSpeech.OnIni
 		b1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent i=new Intent(getApplicationContext(),homepage.class);
+				Intent i=new Intent(getApplicationContext(),start.class);
 				startActivity(i);
 
 
@@ -118,13 +118,13 @@ public Runnable AlertFinder = new Runnable(){
 			String loc=LocationService.place;
 			String lati=LocationService.lati;
 			String logi=LocationService.logi;
-            Toast.makeText(Shake.this, "latti"+lati+"long"+logi, Toast.LENGTH_SHORT).show();
+    //        Toast.makeText(Shake.this, "latti"+lati+"long"+logi, Toast.LENGTH_SHORT).show();
 //			if(!loc.equalsIgnoreCase(tmpplc))
 //			{
 //			if(LocationService.curLocation!=null)
 //			{
-//				
-				Toast.makeText(getApplicationContext(),"Response", Toast.LENGTH_LONG).show();
+//
+//				Toast.makeText(getApplicationContext(),"Response", Toast.LENGTH_LONG).show();
 			url1 = "congestion.php?lattitude="+ lati +"&longitude="+logi+"&uid="+Main2Activity.logid;
 			url1 = url1.replace(" ", "%20");
 			new Loads().execute();
@@ -258,8 +258,8 @@ public Runnable AlertFinder = new Runnable(){
 //    		}
         }
         
-        ta.setText(speed+"");
-        
+     //   ta.setText(speed+"");
+
         last_x = x;
         last_y = y;
         last_z = z;
@@ -271,6 +271,12 @@ static int cn=0;
 		@Override
 		public void run() {
 			if(cn<10){
+				String loc=LocationService.place;
+				String lati=LocationService.lati;
+				String logi=LocationService.logi;
+				url2 = "disruptions.php?lattitude="+ lati +"&longitude="+logi+"&uid="+Main2Activity.logid;
+				url2 = url2.replace(" ", "%20");
+				new Loads1().execute();
 				img.setBackgroundResource(R.drawable.car);
 	            img.setVisibility(View.VISIBLE);
 
@@ -338,6 +344,27 @@ static int cn=0;
 		}
 		return ret;
 	}
+	private String getData1() {
+		String ret = "na";
+		JsonAct ja = new JsonAct();
+		String result = ja.setJsonVal(url2);
+		try {
+			JSONArray arr = new JSONArray(result);
+			String s = arr.getString(0).trim();
+			//Toast.makeText(getApplicationContext(),s+"",Toast.LENGTH_LONG).show();
+			Log.v("Exception", "********" + s);
+			if (!s.equalsIgnoreCase("na")) {
+				JSONObject ob = arr.getJSONObject(0);
+
+				ret = "ok";
+			} else {
+				ret = "na";
+			}
+		} catch (JSONException e) {
+			ret = e.toString();
+		}
+		return ret;
+	}
 	private class Loads extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... strings) {
@@ -350,8 +377,8 @@ static int cn=0;
 			super.onPostExecute(s);
 			if (!s.equalsIgnoreCase("na")) {
 
-                Toast.makeText(getApplicationContext(), "Carefull some distruptions are there", Toast.LENGTH_LONG).show();
-                convertTextToSpeech("Carefull some distruptions are there");
+                Toast.makeText(getApplicationContext(), "Carefull some congestion are there", Toast.LENGTH_LONG).show();
+                convertTextToSpeech("Carefull some congestions are there");
 			} else {
 
 
@@ -359,6 +386,32 @@ static int cn=0;
 			}
 		}
 	}
+
+	private class Loads1 extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String... strings) {
+			String res = getData1();
+			return res;
+		}
+
+		@Override
+		protected void onPostExecute(String s) {
+			super.onPostExecute(s);
+			if (s.equalsIgnoreCase("na")) {
+
+			//	Toast.makeText(getApplicationContext(), "Carefull some distruptions are there", Toast.LENGTH_LONG).show();
+				convertTextToSpeech(" distruptions");
+			} else {
+
+
+				Toast.makeText(getApplicationContext(), "Smooth driving...", Toast.LENGTH_LONG).show();
+			}
+		}
+	}
+
+
+
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub

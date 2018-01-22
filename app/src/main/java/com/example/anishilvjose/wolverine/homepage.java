@@ -52,8 +52,8 @@ public class homepage extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Intent i=new Intent(getApplicationContext(),Main2Activity.class);
-            startActivity(i);
+//            Intent i=new Intent(getApplicationContext(),Main2Activity.class);
+  //          startActivity(i);
 
         }
     }
